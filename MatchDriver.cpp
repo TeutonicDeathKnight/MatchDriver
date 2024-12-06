@@ -2,7 +2,7 @@
 //CSIS 212-<D02_202440>
 
 //Sources
-// 
+//Date.h and Date.cpp taken from lab instructions per direction given in instructions
 // 
 // 
 //collectStringInput(), validateNotEmptyString(), and clearInputStream()
@@ -12,6 +12,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include "Match.h"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ int main()
 
 //function definitions
 
+//collectStringInput()
 string collectStringInput(string prompt, string errMessage)
 {
 	bool inputFlag = false;
