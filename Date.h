@@ -30,6 +30,19 @@ class Date
 	friend std::ostream & operator<<(std::ostream&, Date);
 
 public:
+	void setDate(int, int, int);
+	//date object setter
+	//	sets all date member vairables to passed in values
+
+	int getDay() const;
+	//returns data member day value
+
+	int getMonth() const;
+	//returns data member month value
+
+	int getYear() const;
+	//returns data member year value
+
 	Date();
 	//zero argument constructor / default constructor
 
@@ -40,10 +53,6 @@ public:
 
 	~Date();
 	//class destructor
-	
-	void setDate(int, int, int);
-	//date object setter
-	//	sets all date member vairables to passed in values
 
   private:
 	int day;
