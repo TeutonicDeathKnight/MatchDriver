@@ -17,8 +17,8 @@ public:
 	std::string getFirstName() const;
 	//returns data member firstName value
 
-	void setBirthDate(int day, int month, int year);
-	//sets data member birthDate value to passed in values
+	void setBirthDate(Date* date);
+	//sets data member birthDate value to passed in date object values
 
 	std::string getBirthDate() const;
 	//returns string related to values stored in data member birthDate
@@ -35,8 +35,12 @@ public:
 	Person(std::string last, std::string first
 		, int day, int month, int year
 		, std::string jersey);
+	//multiple argument constructor
+	//	initializes member variables lastName, firstName, birthDate, and jerseyNumber
+	//	to passed in values
 
 	~Person();
+	//destructor
 
 private:
 	std::string lastName;

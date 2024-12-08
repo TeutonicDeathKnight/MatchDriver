@@ -15,8 +15,8 @@ public:
 	std::string getTitle() const;
 	//returns data member title value
 
-	void setHiredDate(int day, int month, int year);
-	//sets data member hiredDate value to passed in values
+	void setHiredDate(Date* date);
+	//sets data member hiredDate value to passed in date object values
 
 	std::string getHiredDate() const;
 	//returns string value for data member hiredDate value

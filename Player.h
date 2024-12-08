@@ -15,8 +15,8 @@ public:
 	int getYearsPlayed() const;
 	//returns data member yearsPlayed value
 
-	void setGraduationDate(int day, int month, int year);
-	//sets data member graduationDate value to passed in int values
+	void setGraduationDate(Date* date);
+	//sets data member graduationDate value to passed in date object values
 
 	std::string getGraduationDate() const;
 	//returns string value for data member graduationDate value
