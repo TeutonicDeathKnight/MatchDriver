@@ -23,7 +23,7 @@ public:
 	std::string getBirthDate() const;
 	//returns string related to values stored in data member birthDate
 
-	void setJerseyNumber(std::string jersey) const;
+	void setJerseyNumber(std::string jersey);
 	//sets data member jerseyNumber value
 
 	std::string getJerseyNumber();
