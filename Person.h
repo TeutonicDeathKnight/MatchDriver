@@ -14,7 +14,7 @@ public:
 	void setFirstName(std::string name);
 	//sets data member firstName value to passed in value
 
-	std::string getLastName() const;
+	std::string getFirstName() const;
 	//returns data member firstName value
 
 	void setBirthDate(int day, int month, int year);
