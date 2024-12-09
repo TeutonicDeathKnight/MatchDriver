@@ -12,20 +12,41 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include "FuncUtils.h"
 #include "Match.h"
 
 using namespace std;
 
 //function prototypes
-
-string collectStringInput(string prompt, string errMessage);
-bool validateNotEmptyString(string strToTest);
-void clearInputStream();
+Match collectTeamInfo(FuncUtils& utils);
+void menuPrompt(int numPlayers, char& sel);
+void selectionTree(char sel, bool& progRun, Match* m);
+void listMatchInfo(Match* m);
 
 //main()
 int main()
 {
 	cout << "Zachary Seeley -- Lab 7 - Inheritance / Operator Overloading\n\n\n";
+
+	//create utility object to perform functions from utility library
+	FuncUtils utils = FuncUtils();
+	bool programRunning = true;
+
+	Match match = collectTeamInfo(utils);
+
+	do
+	{
+		char selection;
+
+		menuPrompt(match.getMatchPlayersLength(), selection);
+
+		if (selection != 'C' && selection != 'P' && selection != 'L' && selection != 'Q')
+			continue;
+
+		selectionTree(selection, programRunning, &match);
+
+
+	} while (programRunning == true);
 
 	//Closing program statements
 	system("pause");
@@ -34,79 +55,134 @@ int main()
 
 //function definitions
 
-//collectStringInput()
-string collectStringInput(string prompt, string errMessage)
+//collectTeamInfo()
+Match collectTeamInfo(FuncUtils& utils)
 {
-	bool inputFlag = false;
-	string input;
+	bool validDateInput = false;
 
-	//while input is not valid,
-	//	prompt and reprompt user for valid text input
+	string prompt = "Team Name: ";
+	string errMessageBase = "\n\nInput is blank and cannot be blank.\n";
+	string errMessage = errMessageBase + "You must input the name of the team.\n\n";
+
+	string name = utils.collectStringInput(prompt, errMessage);
+
+	cout << endl;
+
+	prompt = "Match Location: ";
+	errMessage = errMessageBase + "You must input the name of the match location.\n\n";
+
+	string location = utils.collectStringInput(prompt, errMessage);
+
+	cout << endl;
+
+	prompt = "Match Opponent: ";
+	errMessage = errMessageBase + "You must input the name of the opposing team.\n\n";
+
+	string opponent = utils.collectStringInput(prompt, errMessage);
+
+	cout << endl;
+
+	prompt = "Match Date: ";
+	errMessage = errMessageBase + "You must input the date in the correct format.\n"
+		"Date must be in the format of mm/dd/yyyy.\n\n";
+
+	int day, month, year;
+
 	do
 	{
-		cout << prompt;
+		string date = utils.collectStringInput(prompt, errMessage);
 
-		getline(cin, input);
+		if (date.length() > 10 || date.length() < 10 || date[2] != '/' || date[5] != '/')
+		{
+			string output = "";
+			if (date.length() > 10 || date.length() < 10)
+				output += "\nInput was an incorrect length.";
+			
+			if (date[2] != '/' || date[5] != '/')
+				output += "\nInput was not in mm/dd/yyyy format "
+					"or did not include the '/' character(s) in the correct place(s).";
 
-		if (validateNotEmptyString(input) == false)
-			cout << errMessage;
+			output += "\nDate input must be in the format of mm/dd/yyyy\n\n";
+
+			cout << output;
+		}
 		else
-			inputFlag = true;
+		{
+			errMessage = utils.validateDateStringInput(date, day, month, year);
 
-	} while (inputFlag == false);
+			if (errMessage != "")
+				cout << errMessage;
+			else
+				validDateInput = true;
+		}
+	} while (validDateInput == false);
 
-	return input;
+	cout << endl;
+
+	system("pause");
+
+	return Match(name, location, opponent, day, month, year);
 }
 
-//validateNotEmptyString()
-bool validateNotEmptyString(string strToTest)
+//menuPrompt()
+void menuPrompt(int numPlayers, char& sel)
 {
-	bool containsNonWhitespaceChars = false;
-	string str = strToTest;
 
-	//loop through strToTest
-	for (int position = 0; position < str.length(); position++)
-	{
-		char evalChar = str[position];
+	cout << "Main Menu\n\n"
+		<< "C -- Add Coach\n"
+		<< "P -- Add Player (" << numPlayers << " of 3 Players entered)\n"
+		<< "L -- List Match Information\n"
+		<< "Q -- Quit\n\n"
+		<< "Selection: ";
 
-		//if current character is one of the 6 whitespace characters
-		// replace with the null character
-		if (evalChar == 9
-			|| evalChar == 10
-			|| evalChar == 11
-			|| evalChar == 12
-			|| evalChar == 13
-			|| evalChar == 32)
-		{
-			str[position] = '\0';
-		}
-	}
+	cin >> sel;
 
-	//loop through string and if a non whitespace character is found
-	// set containsNonWhitespaceChars to true and break out of loop
-	for (int position = 0; position < str.length(); position++)
-		if (str[position] != '\0')
-		{
-			containsNonWhitespaceChars = true;
-			break;
-		}
+	if (cin.fail() || (sel != 'C' && sel != 'P' && sel != 'L' && sel != 'Q'))
+		cout << "\n\nSelection was not valid. Selection must be 'C', 'P', 'L', or 'Q'.\n"
+			"Selection must be a capital letter, no lower case allowed.\n\n";
 
-	//if input is only whitespace characters, output error message
-	if (containsNonWhitespaceChars == false)
-	{
-		cout << endl << "Input cannot be blank or only whitespace characters." << endl
-			<< "Press enter to continue." << endl;
-	}
-
-	return containsNonWhitespaceChars;
 }
 
-//clearInputStream()
-void clearInputStream()
+//selectionTree()
+void selectionTree(char sel, bool& progRun, Match* m)
 {
-	//clear 
-	cin.clear();
-	//ignore rest of line determining max length of line
-	//	until the newline character appears
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	if (sel == 'C')
+	{
+		//add coach function here
+	}
+	else if (sel == 'P')
+	{
+		//add player function here
+	}
+	else if (sel == 'L')
+		listMatchInfo(m);
+	else if (sel == 'Q')
+		progRun = false;
+}
+
+//listMatchInfo()
+void listMatchInfo(Match* m)
+{
+	string errOutput = "";
+
+	if (m->getMatchCoach().getTitle() == "")
+		errOutput += "\nA coach has not been added to the match and needs to be added before "
+			"the list will display.";
+	if (m->getMatchPlayersLength() < 3)
+		errOutput += "\nAll three players have not been added and need to be added before "
+			"the list will display.";
+
+	if (errOutput != "")
+	{
+		errOutput += "\n\n";
+		cout << errOutput;
+	}
+	else
+	{
+		cout << "\n\n";
+
+		m->listMatchInformation();
+	}
+
+	system("Pause");
 }

@@ -82,6 +82,10 @@ void Match::listMatchInformation() const
 		<< setw(25) << "#3:\n" << matchPlayers[2];
 }
 
+//getMatchPlayersLength()
+int Match::getMatchPlayersLength() const { return matchPlayers.size(); }
+
+//default / zero argument constructor
 Match::Match()
 {
 	setNameTeam("");
@@ -92,6 +96,7 @@ Match::Match()
 	matchPlayers = vector<Player>();
 }
 
+//multiple argument constructor
 Match::Match(std::string n, std::string l, std::string o, int d, int m, int y)
 {
 	setNameTeam(n);
@@ -102,4 +107,5 @@ Match::Match(std::string n, std::string l, std::string o, int d, int m, int y)
 	matchPlayers = vector<Player>();
 }
 
+//destructor
 Match::~Match() {}

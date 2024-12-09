@@ -51,6 +51,9 @@ public:
 	void listMatchInformation() const;
 	//displays all match information, outputting all member variables in a formatted way
 
+	int getMatchPlayersLength() const;
+	//returns int value for length of matchPlayers vector
+
 	Match();
 	//default / zero argument constructor
 	//	initializes member variables to empty or default values
