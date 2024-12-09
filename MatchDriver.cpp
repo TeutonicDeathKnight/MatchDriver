@@ -3,7 +3,7 @@
 
 //Sources
 //Date.h and Date.cpp taken from lab instructions per direction given in instructions
-// 
+//sort function use in Match.cpp taken from lab instructions
 // 
 //collectStringInput(), validateNotEmptyString(), and clearInputStream()
 //	logic taken from my lab 6 submission

@@ -20,7 +20,7 @@ string Person::getFirstName() const { return firstName; }
 //setBirthDate()
 void Person::setBirthDate(int day, int month, int year)
 {
-	birthDate.setDate(day, month, year);
+	birthDate = Date(day, month, year);
 }
 
 //getBirthDate()
@@ -52,8 +52,7 @@ Person::Person(string last, string first, int day, int month, int year, string j
 
 	setLastName(last);
 	setFirstName(first);
-	//set birthDate using Date constructor to ensure date object is created properly
-	birthDate = Date(day, month, year);
+	setBirthDate(day, month, year);
 	setJerseyNumber(jersey);
 }
 

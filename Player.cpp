@@ -32,7 +32,7 @@ int Player::getYearsPlayed() const { return yearsPlayed; }
 //setGraduationDate()
 void Player::setGraduationDate(int day, int month, int year)
 {
-	graduationDate.setDate(day, month, year);
+	graduationDate = Date(day, month, year);
 }
 
 //getGraduationDate()
@@ -79,7 +79,7 @@ Player::Player(int y, int gd, int gm, int gy, string pos, double avgPoints, stri
 	: Person(l, f, bd, bm, by, j)
 {
 	setYearsPlayed(y);
-	graduationDate = Date(gd, gm, gy);
+	setGraduationDate(gd, gm, gy);
 	setPosition(pos);
 	setAveragePointsPerGame(avgPoints);
 	setSkillLevel(level);

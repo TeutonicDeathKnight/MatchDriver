@@ -30,7 +30,7 @@ string Coach::getTitle() const { return title; }
 //setHiredDate()
 void Coach::setHiredDate(int day, int month, int year)
 {
-	hiredDate.setDate(day, month, year);
+	hiredDate = Date(day, month, year);
 }
 
 //getHiredDate()
@@ -68,10 +68,10 @@ Coach::Coach(std::string t, int hd, int hm, int hy, double s, int y
 		, std::string l, std::string f, int bd, int bm, int by, std::string j)
 	: Person(l, f, bd, bm, by, j)
 {
-	title = t;
-	hiredDate = Date(hd, hm, hy);
-	annualSalary = s;
-	yearsCoached = y;
+	setTitle(t);
+	setHiredDate(hd, hm, hy);
+	setAnnualSalary(s);
+	setYearsCoached(y);
 }
 
 //destructor

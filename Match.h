@@ -26,7 +26,7 @@ public:
 	std::string getMatchOpposition() const;
 	//returns string value for member variable matchOpposition value
 
-	void setMatchDate(Date* date);
+	void setMatchDate(int day, int month, int year);
 	//sets member variable matchDate to passed in Date object
 
 	std::string getMatchDate() const;
@@ -50,6 +50,20 @@ public:
 
 	void listMatchInformation() const;
 	//displays all match information, outputting all member variables in a formatted way
+
+	Match();
+	//default / zero argument constructor
+	//	initializes member variables to empty or default values
+
+	Match(std::string n, std::string l, std::string o, int d, int m, int y);
+	//multi argument constructor
+	//	initializes string variables to passed in string values
+	//	initializes date variable to passed in int values
+	//	initializes Coach variable to an empty object
+	//	initializes vector variable to empty vector
+
+	~Match();
+	//destructor
 
 private:
 	std::string nameTeam;
