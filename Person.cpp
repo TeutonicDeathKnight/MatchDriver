@@ -1,49 +1,43 @@
 #include <string>
 #include "Date.h"
+#include "FuncUtils.h"
 #include "Person.h"
 
 using namespace std;
 
+//setLastName()
 void Person::setLastName(string name) { lastName = name; }
 
+//getLastName()
 string Person::getLastName() const { return lastName; }
 
+//setFirstName()
 void Person::setFirstName(string name) { firstName = name; }
 
+//getFirstName()
 string Person::getFirstName() const { return firstName; }
 
-void Person::setBirthDate(Date* date)
+//setBirthDate()
+void Person::setBirthDate(int day, int month, int year)
 {
-	birthDate.setDate(date->getDay(), date->getMonth(), date->getYear());
+	birthDate.setDate(day, month, year);
 }
 
+//getBirthDate()
 string Person::getBirthDate() const
 {
-	string output = "";
+	FuncUtils util = FuncUtils();
 
-	//if birth month is less than 10, add a leading zero to adhere to mm format
-	if (birthDate.getMonth() < 10 && birthDate.getMonth() > 0)
-		output += '0' + birthDate.getMonth();
-	else
-		output += birthDate.getMonth();
-
-	output += '/';
-
-	//if birth month is lesss than 10, add a leading zero to adhere to the dd format
-	if (birthDate.getDay() < 10 && birthDate.getDay() > 0)
-		output += '0' + birthDate.getDay();
-	else
-		output += birthDate.getDay();
-
-	output += '/' + birthDate.getYear();
-
-	return output;
+	return util.formatDate(birthDate.getDay(), birthDate.getMonth(), birthDate.getYear());
 }
 
+//setJerseyNumber()
 void Person::setJerseyNumber(string jersey) { jerseyNumber = jersey; }
 
+//getJerseyNumber()
 string Person::getJerseyNumber() { return jerseyNumber; }
 
+//Default constructor
 Person::Person()
 {
 	lastName = "";
@@ -52,18 +46,16 @@ Person::Person()
 	jerseyNumber = "";
 }
 
+//multi argument constructor
 Person::Person(string last, string first, int day, int month, int year, string jersey)
 {
+
 	setLastName(last);
 	setFirstName(first);
-	setBirthDate(&Date(day, month, year));
+	//set birthDate using Date constructor to ensure date object is created properly
+	birthDate = Date(day, month, year);
 	setJerseyNumber(jersey);
 }
 
-Person::~Person()
-{
-	lastName = "";
-	firstName = "";
-	delete &birthDate;
-	jerseyNumber = "";
-}
+//destructor
+Person::~Person() {}

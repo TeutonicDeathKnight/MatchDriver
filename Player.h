@@ -3,9 +3,9 @@
 
 //class to store data and functions related to the data
 //	for a player assigned to a match
-class Player
+class Player : public Person
 {
-	friend std::ostream operator<< (std::ostream&, Player);
+	friend std::ostream& operator<< (std::ostream&, Player);
 	//overloads the << operator to provide easy way to output class data
 
 public:
@@ -15,7 +15,7 @@ public:
 	int getYearsPlayed() const;
 	//returns data member yearsPlayed value
 
-	void setGraduationDate(Date* date);
+	void setGraduationDate(int day, int month, int year);
 	//sets data member graduationDate value to passed in date object values
 
 	std::string getGraduationDate() const;
@@ -35,6 +35,9 @@ public:
 
 	void setSkillLevel(std::string level);
 	//sets data member skillLevel value to passed in string value
+
+	std::string getSkillLevel() const;
+	//returns string value for data member skillLevel
 
 	Player();
 	//zero argument constructor / default constructor

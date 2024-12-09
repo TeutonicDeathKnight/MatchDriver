@@ -17,7 +17,7 @@ public:
 	std::string getFirstName() const;
 	//returns data member firstName value
 
-	void setBirthDate(Date* date);
+	void setBirthDate(int day, int month, int year);
 	//sets data member birthDate value to passed in date object values
 
 	std::string getBirthDate() const;

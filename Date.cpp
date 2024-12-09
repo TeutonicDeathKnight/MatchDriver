@@ -1,17 +1,15 @@
 //Date.cpp
 //  Purpose: To provide the ability to work with dates in C++.
 
+#include "FuncUtils.h"
 #include "Date.h"
 
 std::ostream& operator<<(std::ostream& output, Date d)
-/*
-* This function is used to give the user the date
-* in a formatted structure that can be used in
- * a cout statement.
- * See the Date.h file for an example.
- */
 {
-    output << d.month << "/" << d.day << "/" << d.year;
+    FuncUtils util;
+
+    output << util.formatDate(d.day, d.month, d.year);
+
     return output;
 }
 

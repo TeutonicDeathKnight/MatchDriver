@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Coach.cpp" />
     <ClCompile Include="Date.cpp" />
+    <ClCompile Include="FuncUtils.cpp" />
     <ClCompile Include="Match.cpp" />
     <ClCompile Include="MatchDriver.cpp" />
     <ClCompile Include="Person.cpp" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Coach.h" />
     <ClInclude Include="Date.h" />
+    <ClInclude Include="FuncUtils.h" />
     <ClInclude Include="Match.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Player.h" />

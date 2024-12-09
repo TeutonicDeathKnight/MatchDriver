@@ -27,7 +27,7 @@ class Date
 	* friend declaration allows the function to have access
 	* to private and protected members of the class.
 	*/
-	friend std::ostream & operator<<(std::ostream&, Date);
+	friend std::ostream& operator<<(std::ostream&, Date);
 
 public:
 	void setDate(int, int, int);

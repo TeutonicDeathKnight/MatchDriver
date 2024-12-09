@@ -5,7 +5,7 @@
 //	for a coach to assign to a match
 class Coach : public Person
 {
-	friend std::ostream operator<< (std::ostream&, Coach);
+	friend std::ostream& operator<<(std::ostream&, Coach);
 	//overload << operator to provide easy use of outputting class data
 
 public:
@@ -15,16 +15,28 @@ public:
 	std::string getTitle() const;
 	//returns data member title value
 
-	void setHiredDate(Date* date);
+	void setHiredDate(int day,int month,int year);
 	//sets data member hiredDate value to passed in date object values
 
 	std::string getHiredDate() const;
 	//returns string value for data member hiredDate value
 
+	void setAnnualSalary(double salary);
+	//sets data member annualSalary to value passed through parameter
+
+	double getAnnualSalary() const;
+	//returns double value for data member annualSalary
+
+	void setYearsCoached(int years);
+	//sets data member yearsCoached to value passed through parameter
+
+	int getYearsCoached() const;
+	//returns int value for data member yearsCoached
+
 	Coach();
 	//zero argument constructor / default constructor
 
-	Coach(std::string t, int hd, int hm, int hy
+	Coach(std::string t, int hd, int hm, int hy, double s, int y
 		, std::string l, std::string f, int bd, int bm, int by, std::string j);
 	//multiple argument constructor
 	//	initializes member variables title and hiredDate to first four passed in values
@@ -39,4 +51,10 @@ private:
 
 	Date hiredDate;
 	//Date object that stores value for coach's hired date
+
+	double annualSalary;
+	//stores value for coach's annual salary
+
+	int yearsCoached;
+	//stores value for coach's number of years coached
 };
