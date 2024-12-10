@@ -50,6 +50,49 @@ std::string FuncUtils::collectStringInput(std::string prompt, std::string errMes
 	return input;
 }
 
+int FuncUtils::convertCharNumberToInt(char c)
+{
+	int output;
+
+	switch (c)
+	{
+	case '1':
+		output = 1;
+		break;
+	case '2':
+		output = 2;
+		break;
+	case '3':
+		output = 3;
+		break;
+	case '4':
+		output = 4;
+		break;
+	case '5':
+		output = 5;
+		break;
+	case '6':
+		output = 6;
+		break;
+	case '7':
+		output = 7;
+		break;
+	case '8':
+		output = 8;
+		break;
+	case '9':
+		output = 9;
+		break;
+	case '0':
+		output = 0;
+		break;
+	default:
+		output = -1;
+	}
+
+	return output;
+}
+
 std::string FuncUtils::validateDateStringInput(std::string input, int& day, int& month, int& year)
 {	std::string errOutput = "";
 
@@ -63,44 +106,15 @@ std::string FuncUtils::validateDateStringInput(std::string input, int& day, int&
 				month = 10;
 			else
 				errOutput +=
-					"\nMonth input was too large and must be between 01 and 12 inclusive";
+				"\nMonth input was too large and must be between 01 and 12 inclusive";
 		}
 		else if (i == 1)
 		{
 			if (input[i] == '0' && month == 0)
 				errOutput +=
-					"\nMonth input was \"00\" and must be between 01 and 12 inclusive.";
+				"\nMonth input was \"00\" and must be between 01 and 12 inclusive.";
 			else
-				switch (input[i])
-				{
-				case '1':
-					month += 1;
-					break;
-				case '2':
-					month += 2;
-					break;
-				case '3':
-					month += 3;
-					break;
-				case '4':
-					month += 4;
-					break;
-				case '5':
-					month += 5;
-					break;
-				case '6':
-					month += 6;
-					break;
-				case '7':
-					month += 7;
-					break;
-				case '8':
-					month += 8;
-					break;
-				case '9':
-					month += 9;
-					break;
-				}
+				month += convertCharNumberToInt(input[i]);
 		}
 		else if (i == 3)
 		{
@@ -114,172 +128,27 @@ std::string FuncUtils::validateDateStringInput(std::string input, int& day, int&
 				day = 30;
 			else
 				errOutput +=
-					"\nDay input was too large and must be between 01 and 31 inclusive.";
+				"\nDay input was too large and must be between 01 and 31 inclusive.";
 		}
 		else if (i == 4)
 		{
 			if (input[i] == '0' && day == 0)
 				errOutput += "\nDay input was \"00\" and must be between 01 and 31 inclusive.";
 			else
-				switch (input[i])
-				{
-				case '1':
-					day += 1;
-					break;
-				case '2':
-					day += 2;
-					break;
-				case '3':
-					day += 3;
-					break;
-				case '4':
-					day += 4;
-					break;
-				case '5':
-					day += 5;
-					break;
-				case '6':
-					day += 6;
-					break;
-				case '7':
-					day += 7;
-					break;
-				case '8':
-					day += 8;
-					break;
-				case '9':
-					day += 9;
-					break;
-				}
+				day += convertCharNumberToInt(input[i]);
 		}
 		else if (i == 6)
 		{
-			switch (input[i])
-			{
-			case '1':
-				day = 1000;
-				break;
-			case '2':
-				day = 2000;
-				break;
-			case '3':
-				day = 3000;
-				break;
-			case '4':
-				day = 4000;
-				break;
-			case '5':
-				day = 5000;
-				break;
-			case '6':
-				day = 6000;
-				break;
-			case '7':
-				day = 7000;
-				break;
-			case '8':
-				day = 8000;
-				break;
-			case '9':
-				day = 9000;
-				break;
-			}
+			year = convertCharNumberToInt(input[i]) * 1000;
 		}
 		else if (i == 7)
 		{
-			switch (input[i])
-			{
-			case '1':
-				day += 100;
-				break;
-			case '2':
-				day += 200;
-				break;
-			case '3':
-				day += 300;
-				break;
-			case '4':
-				day += 400;
-				break;
-			case '5':
-				day += 500;
-				break;
-			case '6':
-				day += 600;
-				break;
-			case '7':
-				day += 700;
-				break;
-			case '8':
-				day += 800;
-				break;
-			case '9':
-				day += 900;
-				break;
-			}
+			year += convertCharNumberToInt(input[i]) * 100;
 		}
 		else if (input[i] == 8)
-			switch (input[i])
-			{
-			case '1':
-				day += 10;
-				break;
-			case '2':
-				day += 20;
-				break;
-			case '3':
-				day += 30;
-				break;
-			case '4':
-				day += 40;
-				break;
-			case '5':
-				day += 50;
-				break;
-			case '6':
-				day += 60;
-				break;
-			case '7':
-				day += 70;
-				break;
-			case '8':
-				day += 80;
-				break;
-			case '9':
-				day += 90;
-				break;
-			}
+			year += convertCharNumberToInt(input[i]) * 10;
 		else if (input[i] == 9)
-			switch (input[i])
-			{
-			case '1':
-				day += 1;
-				break;
-			case '2':
-				day += 2;
-				break;
-			case '3':
-				day += 3;
-				break;
-			case '4':
-				day += 4;
-				break;
-			case '5':
-				day += 5;
-				break;
-			case '6':
-				day += 6;
-				break;
-			case '7':
-				day += 7;
-				break;
-			case '8':
-				day += 8;
-				break;
-			case '9':
-				day += 9;
-				break;
-			}
+			year += convertCharNumberToInt(input[i]);
 	}
 
 	if (year == 0)
@@ -290,6 +159,8 @@ std::string FuncUtils::validateDateStringInput(std::string input, int& day, int&
 
 	return errOutput;
 }
+
+
 
 //validateNotEmptyString()
 bool FuncUtils::validateNotEmptyString(std::string strToTest)
