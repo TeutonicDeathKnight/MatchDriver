@@ -4,7 +4,6 @@
 //Sources
 //Date.h and Date.cpp taken from lab instructions per direction given in instructions
 //sort function use in Match.cpp taken from lab instructions
-// 
 //collectStringInput(), validateNotEmptyString(), and clearInputStream()
 //	logic taken from my lab 6 submission
 
@@ -17,17 +16,17 @@
 
 using namespace std;
 
-//global constant
-const string errMessageBase = "\n\nInput is blank and cannot be blank.\n";
-
 //function prototypes
 Match collectTeamInfo(FuncUtils& utils);
 void menuPrompt(int numPlayers, char& sel);
-void selectionTree(char sel, bool& programRunning, Match* m, Coach* c, FuncUtils& utils);
-void addCoach(Match* m, Coach* c, FuncUtils& utils);
+void selectionTree(char sel, bool& programRunning, Match* m, FuncUtils& utils);
+void addCoach(Match* m, FuncUtils& utils);
+void addPlayer(Match* m, FuncUtils& utils);
 void listMatchInfo(Match* m);
 void collectDateInput(string prompt, FuncUtils& utils
 	, string& errMessage, int& day, int& month, int& year);
+void collectPersonInfo(FuncUtils& utils, string person, string& errMessage, string& first
+	, string& last, string& jersey, int& bDay, int& bMonth, int& bYear, bool& validInput);
 
 //main()
 int main()
@@ -39,7 +38,6 @@ int main()
 	bool programRunning = true;
 
 	Match match = collectTeamInfo(utils);
-	Coach coach = Coach();
 
 	do
 	{
@@ -54,7 +52,7 @@ int main()
 		else
 			cout << "\n\n";
 
-		selectionTree(selection, programRunning, &match, &coach, utils);
+		selectionTree(selection, programRunning, &match, utils);
 
 
 	} while (programRunning == true);
@@ -70,6 +68,8 @@ int main()
 Match collectTeamInfo(FuncUtils& utils)
 {
 	bool validDateInput = false;
+
+	const string errMessageBase = "\n\nInput is blank and cannot be blank.\n";
 
 	string prompt = "Team Name: ";
 	string errMessage = errMessageBase + "You must input the name of the team.\n\n";
@@ -125,12 +125,12 @@ void menuPrompt(int numPlayers, char& sel)
 }
 
 //selectionTree()
-void selectionTree(char sel, bool& programRunning, Match* m, Coach* c, FuncUtils& utils)
+void selectionTree(char sel, bool& programRunning, Match* m, FuncUtils& utils)
 {
 	if (sel == 'C')
-		addCoach(m, c, utils);
+		addCoach(m, utils);
 	else if (sel == 'P')
-		{}//addPlayer(m);
+		addPlayer(m, utils);
 	else if (sel == 'L')
 		listMatchInfo(m);
 	else if (sel == 'Q')
@@ -138,7 +138,7 @@ void selectionTree(char sel, bool& programRunning, Match* m, Coach* c, FuncUtils
 }
 
 //addCoach()
-void addCoach(Match* m, Coach* c, FuncUtils& utils)
+void addCoach(Match* m, FuncUtils& utils)
 {
 	if (m->getMatchCoach().getTitle() != "")
 	{
@@ -146,62 +146,19 @@ void addCoach(Match* m, Coach* c, FuncUtils& utils)
 	}
 	else
 	{
-		string errMessage = errMessageBase + "You must input the first name of the coach.\n\n";
+		string first, last, jersey, errMessage, title;
+		int bDay, bMonth, bYear, yearsCoached, hDay, hMonth, hYear;
+		double annualSalary;
+		bool validInput = false;
 
-		cout << right << setw(35) << "Enter Coach for Match: " << endl << endl
-			<< setw(35) << "First Name: ";
+		const string errMessageBase = "\n\nInput is blank and cannot be blank.\n";
 
-		string first = utils.collectStringInput("", errMessage);
+		cout << right << setw(35) << "Enter Coach for Match: " << endl << endl;
 
-		errMessage = errMessageBase + "You must input the last name of the coach.\n\n";
+		collectPersonInfo(utils, "coach", errMessage, first, last, jersey
+			, bDay, bMonth, bYear, validInput);
 
-		cout << setw(35) << "Last Name: ";
-
-		string last = utils.collectStringInput("", errMessage);
-
-		string jersey;
-
-		errMessage = errMessageBase
-			+ "You must input the number of the jersey as a two digit number.";
-
-		bool validJersey = false;
-
-		do
-		{
-			cout << setw(35) << "Jersey Number: ";
-
-			jersey = utils.collectStringInput("", errMessage);
-
-			if (jersey.length() != 2)
-			{
-				cout << "\nInput was not the correct length. "
-					"Input must be a whole numeric value between 00 and 99 inclusive.\n\n";
-			}
-			else
-			{
-				int num1 = utils.convertCharNumberToInt(jersey[0]);
-				int num2 = utils.convertCharNumberToInt(jersey[1]);
-
-				if (!(num1 >= 0 && num1 <= 9 && num2 >= 0 && num2 <= 9))
-				{
-					cout << "\nInput was not a numeric value. "
-						"Input must be between 00 and 99 inclusive.\n\n";
-				}
-				else
-					validJersey = true;
-			}
-		} while (validJersey == false);
-
-		errMessage = errMessageBase + "You must input the birth date of the coach.\n\n";
-
-		int bDay, bMonth, bYear;
-
-		collectDateInput("           Birth Date(mm/dd/yyyy): "
-			, utils, errMessage, bDay, bMonth, bYear);
-
-
-		bool validYearsCoached = false;
-		int yearsCoached;
+		validInput = false;
 
 		do
 		{
@@ -212,47 +169,139 @@ void addCoach(Match* m, Coach* c, FuncUtils& utils)
 			if (cin.fail())
 				cout << "\nInput must be a single, whole numeric value.\n\n";
 			else
-				validYearsCoached = true;
+				validInput = true;
 			
 			utils.clearInputStream();
-		} while (validYearsCoached == false);
+		} while (validInput == false);
 
 		errMessage = errMessageBase + "You must input the hired date of the coach.\n\n";
-
-		int hDay, hMonth, hYear;
 
 		collectDateInput("           Hire Date(mm/dd/yyyy): "
 			, utils, errMessage, hDay, hMonth, hYear);
 
 		errMessage = errMessageBase + "You must input the title of the coach.\n\n";
 
-		cout << setw(35) << "Title: ";
+		title = utils.collectStringInput("                            Title: "
+			, errMessage);
 
-		string title = utils.collectStringInput("", errMessage);
-
-		bool validAnnualSalary = false;
-		double annualSalary;
-
-		cout << setw(35) << "Annual Salary: ";
+		validInput = false;
 
 		do
 		{
+			cout << setw(35) << "Annual Salary: ";
+
 			cin >> annualSalary;
 
 			if (cin.fail())
 				cout << "\nInput must be a numeric value.\n\n";
 			else
-				validAnnualSalary = true;
+				validInput = true;
 
 			utils.clearInputStream();
-		} while (validAnnualSalary == false);
+		} while (validInput == false);
 
-		*c = Coach(title, hDay, hMonth, hYear, annualSalary, yearsCoached
-			, last, first, bDay, bMonth, bYear, jersey);
+		Coach c(title, hDay, hMonth, hYear, annualSalary, yearsCoached
+			, last, first, bDay, bMonth, bYear, jersey);// = Coach();
 
-		m->setMatchCoach(c);
+		m->setMatchCoach(&c);
 	}
 	
+	cout << '\n';
+	system("pause");
+}
+
+//addPlayer()
+void addPlayer(Match* m, FuncUtils& utils)
+{
+	int numPlayers = m->getMatchPlayersLength();
+
+	if (numPlayers == 3)
+		cout << "All three players have been assigned. Operation Canceled.\n";
+	else
+	{
+		string first, last, jersey, position, skillLevel, errMessage;
+		int bDay, bMonth, bYear, yearsPlayed, gDay, gMonth, gYear;
+		double avgPointsPerGame;
+		bool validInput = false;
+
+		const string errMessageBase = "\n\nInput is blank and cannot be blank.\n";
+
+		cout << right << setw(37) << "Enter Player #" << numPlayers + 1 << ':' << "\n\n";
+
+		collectPersonInfo(utils, "player", errMessage, first, last, jersey
+			, bDay, bMonth, bYear, validInput);
+
+		validInput = false;
+
+		do
+		{
+			cout << setw(40) << "Years Played (whole number only): ";
+
+			cin >> yearsPlayed;
+
+			if (cin.fail())
+				cout << "\nInput must be a single, whole numeric value.\n\n";
+			else
+				validInput = true;
+
+			utils.clearInputStream();
+		} while (validInput == false);
+
+		errMessage = errMessageBase + "You must input the hired date of the player.\n\n";
+
+		collectDateInput("           Graduation Date(mm/dd/yyyy): "
+			, utils, errMessage, gDay, gMonth, gYear);
+
+		errMessage = errMessageBase + "You must input the title of the player.\n\n";
+
+		position = utils.collectStringInput("       Position (Setter, Blocker, etc): "
+			, errMessage);
+
+		validInput = false;
+
+		do
+		{
+			cout << setw(40) << "Points Average Per Game: ";
+
+			cin >> avgPointsPerGame;
+
+			if (cin.fail())
+				cout << "\nInput must be a numeric value.\n\n";
+			else
+				validInput = true;
+
+			utils.clearInputStream();
+		} while (validInput == false);
+
+		errMessage = errMessageBase + "You must input the skill level of the player as "
+			"Intermediate or Advanced.\n\n";
+
+		validInput = false;
+
+		do
+		{
+			skillLevel = utils.collectStringInput("  Skill Level (Intermediate, Advanced): "
+				, errMessage);
+
+			if (skillLevel == "Intermediate" || skillLevel == "Advanced"
+				|| skillLevel == "intermediate" || skillLevel == "advanced")
+				validInput = true;
+			else
+			{
+				cout << "\nSkill level must be either Intermediate or Advanced "
+					"with the first letter capitalized.\n\n";
+
+				skillLevel = "";
+			}
+
+		} while (validInput = false);
+
+		Player p(yearsPlayed, gDay, gMonth, gYear, position, avgPointsPerGame, skillLevel
+			, last, first, bDay, bMonth, bYear, jersey);
+
+		m->setMatchPlayers(&p);
+	}
+
 	cout << '\n';
 	system("pause");
 }
@@ -283,6 +332,7 @@ void listMatchInfo(Match* m)
 	system("Pause");
 }
 
+//collectDateInput()
 void collectDateInput(string prompt, FuncUtils& utils
 	, string& errMessage, int& day, int& month, int& year)
 {
@@ -322,4 +372,70 @@ void collectDateInput(string prompt, FuncUtils& utils
 			cout << "\nInput was an incorrect length and must be in mm/dd/yyyy format.\n\n";
 		}
 	} while (validDateInput == false);
+}
+
+//collectPersonInfo()
+void collectPersonInfo(FuncUtils& utils, string person, string& errMessage, string& first, string& last
+	, string& jersey, int& bDay, int& bMonth, int& bYear, bool& validInput)
+{
+	const string errMessageBase = "\n\nInput is blank and cannot be blank.\n";
+
+	errMessage = errMessageBase + "You must input the first name of the " + person + ".\n\n";
+
+	if (person == "coach")
+		first = utils.collectStringInput("                       First Name: ", errMessage);
+	else
+		first = utils.collectStringInput("                            First Name: "
+			, errMessage);
+
+	errMessage = errMessageBase + "You must input the last name of the " + person + ".\n\n";
+
+	if (person == "coach")
+		last = utils.collectStringInput("                        Last Name: ", errMessage);
+	else
+		last = utils.collectStringInput("                             Last Name: "
+			, errMessage);
+
+	errMessage = errMessageBase
+		+ "You must input the number of the jersey as a two digit number.";
+
+	do
+	{
+		if (person == "coach")
+			jersey = utils.collectStringInput("                    Jersey Number: "
+				, errMessage);
+		else
+			jersey = utils.collectStringInput("                         Jersey Number: "
+				, errMessage);
+
+		if (jersey.length() != 2)
+		{
+			cout << "\nInput was not the correct length. "
+				"Input must be a whole numeric value between 00 and 99 inclusive.\n\n";
+		}
+		else
+		{
+			int num1 = utils.convertCharNumberToInt(jersey[0]);
+			int num2 = utils.convertCharNumberToInt(jersey[1]);
+
+			if (!(num1 >= 0 && num1 <= 9 && num2 >= 0 && num2 <= 9))
+			{
+				cout << "\nInput was not a numeric value. "
+					"Input must be between 00 and 99 inclusive.\n\n";
+			}
+			else
+				validInput = true;
+		}
+	} while (validInput == false);
+
+	errMessage = errMessageBase + "You must input the birth date of the " + person + ".\n\n";
+
+	if (person == "coach")
+		collectDateInput("           Birth Date(mm/dd/yyyy): "
+			, utils, errMessage, bDay, bMonth, bYear);
+	else
+		collectDateInput("                Birth Date(mm/dd/yyyy): "
+			, utils, errMessage, bDay, bMonth, bYear);
+
+	validInput = false;
 }
